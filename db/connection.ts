@@ -1,7 +1,7 @@
 import {createConnection, getConnection} from "typeorm";
+import { ToDoEntity } from "../api/v1/entities/todo.entity";
 
 import {environment} from "../environments/environment";
-import { ToDoEntity } from "../lib/entities/todo.entity";
 
 export async function connectToDataBase() {
     try {
