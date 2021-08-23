@@ -1,7 +1,7 @@
 import {Entity, Column, PrimaryGeneratedColumn} from "typeorm";
+import { IToDo } from "../../lib/interfaces/to-do.interface";
+import { ToDoStatus } from "../../lib/interfaces/todo-status.enum";
 
-import {ToDoStatus} from "../interfaces/todo-status.enum";
-import {IToDo} from "../interfaces/to-do.interface";
 
 @Entity('todo')
 export class ToDoEntity implements IToDo {

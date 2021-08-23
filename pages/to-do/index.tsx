@@ -1,11 +1,14 @@
 import type { NextPage } from 'next'
+import {AddToDo} from "../../components/add-to-do";
+import {ToDoItem} from "../../components/to-do-item";
 
 
 const Home: NextPage = () => {
   return (
-    <div >
-        <h1 className="text-grey-darkest">Todo List</h1>
-    </div>
+      <div className="h-100 w-full flex flex-col items-center  justify-center flex- bg-teal-lightest font-sans">
+         <AddToDo/>
+         <ToDoItem/>
+      </div>
   )
 }
 
