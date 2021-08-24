@@ -16,7 +16,7 @@ export const usePagination = (handler: TGetData, setState: TSetState) => {
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | string[] | null>(null)
     const [isNeedFetchData, setIsNeedFetchData] = useState<boolean>(false);
-    const disablePagination = 10 + skip >=total
+    const disablePagination = total - skip < 0
 
 
     const loadMore = () => {
@@ -30,7 +30,7 @@ export const usePagination = (handler: TGetData, setState: TSetState) => {
 
 
     useEffect(() => {
-        if (isNeedFetchData){
+        if (isNeedFetchData) {
             (async () => {
                 try {
                     const response: IPaginationHandlerData = await handler(getQuery(skip))
@@ -51,7 +51,7 @@ export const usePagination = (handler: TGetData, setState: TSetState) => {
 
 
     return {
-        loadMore, setSkip, error, loading, total,setTotal,disablePagination
+        loadMore, setSkip, error, loading, total, setTotal, disablePagination
     }
 
 }

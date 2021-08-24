@@ -14,7 +14,7 @@ export const NavLink: React.FC<customLinkProps> = ({children, href, className, o
     const router = useRouter();
     let newClassName = className
     if (router.pathname === href) {
-        newClassName = `${className}  border-b-4 border-indigo-600`
+        newClassName = `${className}  border-b-4 border-indigo-100`
     }
 
 

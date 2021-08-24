@@ -24,8 +24,8 @@ export class ToDoApi {
         return data;
     }
 
-    static async updateTodo(payload: Partial<Omit<IToDo, 'id'>>): Promise<IResponseMessage> {
-        const {data} = await axios$.put<IResponseMessage>('to-do', payload);
+    static async updateTodo(id:number,payload: Partial<Omit<IToDo, 'id'>>): Promise<IResponseMessage> {
+        const {data} = await axios$.put<IResponseMessage>(`to-do/${id}`, payload);
         return data;
     }
 
