@@ -1,14 +1,16 @@
 import {IToDo} from "../interfaces/to-do.interface";
 import {axios$} from "../utils/instace-axios";
+import {IResponseMessage} from "../interfaces/response-message.interface";
+import {ITodoResponse} from "../interfaces/todo-response.interface";
 
 export class ToDoApi {
 
 
-    private constructor() {
-    }
+    static async getTodos(query?: string): Promise<ITodoResponse> {
+        const uri = query ? 'to-do?' + query : 'to-do'
 
-    static async getTodos() {
-        const {data} = await axios$.get<IToDo[]>('to-do');
+        const {data} = await axios$.get<ITodoResponse>(uri);
+
         return data
     }
 
@@ -17,13 +19,13 @@ export class ToDoApi {
         return data;
     }
 
-    static async removeTodo(id: number) {
-        const {data} = await axios$.delete<IToDo>(`to-do/${id}`);
+    static async removeTodo(id: number): Promise<IResponseMessage> {
+        const {data} = await axios$.delete<IResponseMessage>(`to-do/${id}`);
         return data;
     }
 
-    static async updateTodo(payload: Partial<Omit<IToDo, 'id'>>): Promise<IToDo> {
-        const {data} = await axios$.put<IToDo>('to-do', payload);
+    static async updateTodo(payload: Partial<Omit<IToDo, 'id'>>): Promise<IResponseMessage> {
+        const {data} = await axios$.put<IResponseMessage>('to-do', payload);
         return data;
     }
 

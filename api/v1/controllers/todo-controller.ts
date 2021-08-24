@@ -1,4 +1,4 @@
-import {getRepository, Repository} from "typeorm";
+import {getRepository, Like, Repository} from "typeorm";
 
 import {NextApiRequest, NextApiResponse} from "next";
 import {IToDo} from "../../../lib/interfaces/to-do.interface";
@@ -9,13 +9,24 @@ export class TodoController {
     }
 
     public async getAll(req: NextApiRequest, res: NextApiResponse) {
+        const {query} = req
+        const take = query.take || 10
+        const skip = query.skip || 0
+        const keyword = query.keyword || ''
 
-        const todos = await this.todoRepository
-            .createQueryBuilder('t')
-            .orderBy('t.id', 'DESC')
-            .getMany()
 
-        res.send(todos)
+        const [result, total] = await this.todoRepository.findAndCount(
+            {
+                // @ts-ignore
+                where: {title: Like('%' + keyword + '%')}, order: {id: "DESC"},
+                take: take,
+                skip: skip
+            }
+        );
+        res.send({
+            data: result,
+            total: total
+        })
     }
 
 
@@ -32,21 +43,23 @@ export class TodoController {
 
         const deleted = await this.todoRepository.delete(id)
 
-        if (deleted.raw[0]) {
+
+        if (deleted.affected === 1) {
+            console.log('im work to bacend')
             res.status(200).json({message: 'success'});
         }
-        //exeption
+        //exception
     }
 
     public async update(req: NextApiRequest, res: NextApiResponse): Promise<void> {
         const id = Number(req.query.params)
         const data = req.body as Omit<IToDo, 'id'>
         const updated = await this.todoRepository.update({id}, data);
-        if (updated.raw[0]) {
+        if (updated.affected === 1) {
             res.status(200).json({message: 'success'});
 
         }
-        //exeption
+        //exception
     }
 
 
