@@ -1,57 +1,23 @@
-import React, {useState} from 'react';
+import React  from 'react';
 
-import {IResponseMessage} from "../../lib/interfaces/response-message.interface";
-import {useToDoContext} from "../../lib/context/todo-context";
 import {IToDo} from "../../lib/interfaces/to-do.interface";
-import {ToDoApi} from "../../lib/service/todo-api.service";
 import TodoStatus from "../todo-status";
+import {Loader} from "../loader";
+import {useToDoFacade} from "../../lib/hooks/use-to-do.facade";
 
-export const ToDoItem: React.FC<IToDo> = ({title, status, id}) => {
-
-    const {setTodos} = useToDoContext()
-
-    const [isNeedShowStatus, setIsNeedShowStatus] = useState<boolean>(false)
-    //  const [currentStatus, setCurrentStatus] = useState<string>('in progress')
-
-
-    const closeStatusBar = () => {
-
-        setIsNeedShowStatus(false)
-    }
-
-    const opeStatusBar = (e: MouseEvent) => {
-
-        e.stopPropagation()
-
-        setIsNeedShowStatus(true)
-
-    }
-
-    React.useEffect(() => {
-        window.addEventListener('click', closeStatusBar);
-
-
-        return () => {
-            window.removeEventListener('click', closeStatusBar);
-        };
-    }, []);
-
-    const removeTodo = async () => {
-        try {
-            const deleted: IResponseMessage = await ToDoApi.removeTodo(id)
-            console.log(deleted)
-            if (deleted.message === 'success') {
-                setTodos((prevState: IToDo[]) => {
-                    return prevState.filter(todo => todo.id !== id)
-                })
-            }
-        } catch (e) {
-            //setSomeError
-            console.log(e)
-        } finally {
-            //loader false
-        }
-    }
+export const ToDoItem: React.FC<IToDo> = (props) => {
+    const {title, status} = props
+    const {
+        saveOrEditHandler,
+        isNeedShowStatus,
+        opeStatusBar,
+        isSubmitting,
+        isRemoving,
+        setNewTitle,
+        removeTodo,
+        isNeedEdited,
+        newTitle
+    } = useToDoFacade(props)
 
 
     return (
@@ -59,17 +25,35 @@ export const ToDoItem: React.FC<IToDo> = ({title, status, id}) => {
 
             <div>
                 <div className="flex mb-4 items-center">
-                    <p className="w-full  text-green">{title}</p>
+                    {
+                        isNeedEdited
+                            ? <input type="text" onChange={(e) => setNewTitle(e.currentTarget.value)} value={newTitle}
+                                     className='shadow appearance-none border rounded w-full py-2 px-3 mr-4 text-grey-darker focus:outline-none focus:ring focus:border-blue-100'/>
+                            : <p className="w-full  text-green">{title}</p>
+                    }
+
+                    {isSubmitting
+                        ? <Loader/>
+
+                        : <button onClick={saveOrEditHandler}
+                                  className="block p-2 ml-2 border-2 rounded text-red border-red hover:bg-purple-300 hover:bg-red">{isNeedEdited ? 'Save' : 'Edit'}
+                        </button>
+                    }
                     {/*// @ts-ignore*/}
                     <button onClick={opeStatusBar}
-                            className="flex-no-shrink p-2 ml-4 mr-2 border-2 rounded hover:text-white text-grey border-grey hover:bg-grey">
+                            className="block w-56 p-2 ml-4 mr-2 border-2 rounded hover:bg-yellow-300 text-grey border-grey hover:bg-grey">
                         {status}
                     </button>
-                    {isNeedShowStatus ? <TodoStatus/> : ''}
+                    {
+                        isRemoving
+                            ? <Loader/>
+                            : <button onClick={removeTodo}
+                                      className="flex-no-shrink p-2 ml-2 border-2 rounded text-red border-red hover:bg-red-300 hover:bg-red">Remove
+                            </button>
+                    }
 
-                    <button onClick={removeTodo}
-                        className="flex-no-shrink p-2 ml-2 border-2 rounded text-red border-red hover:text-white hover:bg-red">Remove
-                    </button>
+                    {isNeedShowStatus ? <TodoStatus {...props} /> : ''}
+
                 </div>
             </div>
         </div>

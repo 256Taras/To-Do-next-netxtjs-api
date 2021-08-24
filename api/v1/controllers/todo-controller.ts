@@ -13,8 +13,6 @@ export class TodoController {
         const take = query.take || 10
         const skip = query.skip || 0
         const keyword = query.keyword || ''
-
-
         const [result, total] = await this.todoRepository.findAndCount(
             {
                 // @ts-ignore
@@ -33,7 +31,10 @@ export class TodoController {
     public async create(req: NextApiRequest, res: NextApiResponse): Promise<void> {
         const title = req.body as IToDo
         const todo = this.todoRepository.create(title)
-        await this.todoRepository.save(todo)
+        await this.todoRepository.createQueryBuilder()
+            .insert()
+            .values(todo)
+            .execute();
         res.status(201).json(todo);
 
     }
@@ -41,7 +42,10 @@ export class TodoController {
     public async delete(req: NextApiRequest, res: NextApiResponse): Promise<void> {
         const id = Number(req.query.params)
 
-        const deleted = await this.todoRepository.delete(id)
+        const deleted = await this.todoRepository.createQueryBuilder()
+            .delete()
+            .where("id = :id", {id})
+            .execute();
 
 
         if (deleted.affected === 1) {
@@ -54,7 +58,12 @@ export class TodoController {
     public async update(req: NextApiRequest, res: NextApiResponse): Promise<void> {
         const id = Number(req.query.params)
         const data = req.body as Omit<IToDo, 'id'>
-        const updated = await this.todoRepository.update({id}, data);
+        console.log(data)
+        const updated = await this.todoRepository.createQueryBuilder()
+            .update()
+            .set(data)
+            .where("id = :id", {id})
+            .execute();
         if (updated.affected === 1) {
             res.status(200).json({message: 'success'});
 
