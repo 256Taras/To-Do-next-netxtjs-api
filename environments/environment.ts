@@ -1,7 +1,7 @@
 export const environment = {
     databaseConnection: {
-        type: process.env['DB_TYPE'] as 'postgres',
-        url: process.env['DATABASE_URL'] as string,
+        type: 'postgres',
+        url: 'postgres://pulxfqzz:WzcD54Dscd90DAWTExNMSXr6bVXe-umI@batyr.db.elephantsql.com/pulxfqzz',
         autoLoadEntities: true,
         synchronize: true,
         logging: false,
