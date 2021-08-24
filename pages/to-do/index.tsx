@@ -20,7 +20,7 @@ const Home: NextPage<{ payload: ITodoResponse }> = ({payload}) => {
     useEffect(()=>{
         setTodos(payload.data)
         setTotal(payload.total)
-    },[])
+    },[payload.data,payload.total,setTodos])
 
 
     if (!todos) {
