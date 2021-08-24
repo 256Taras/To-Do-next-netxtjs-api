@@ -6,7 +6,8 @@ import {useToDoContext} from "../../lib/context/todo-context";
 import {ToDoApi} from "../../lib/service/todo-api.service";
 import {ToDoList} from "../../components/to-do-list";
 import {AddToDo} from "../../components/add-to-do";
-import {usePagination} from "../../lib/hooks/usePagination";
+import {usePagination} from "../../lib/hooks/use-pagination";
+import {Loader} from "../../components/loader";
 
 
 const Home: NextPage<{ payload: ITodoResponse }> = ({payload}) => {
@@ -14,16 +15,12 @@ const Home: NextPage<{ payload: ITodoResponse }> = ({payload}) => {
 
     const {todos, setTodos} = useToDoContext()
 
-    const {loadMore,loading,disablePagination,error,setTotal} = usePagination(ToDoApi.getTodos,setTodos)
+    const {loadMore,loading,disablePagination,setTotal} = usePagination(ToDoApi.getTodos,setTodos)
 
     useEffect(()=>{
         setTodos(payload.data)
         setTotal(payload.total)
     },[])
-
-
-
-
 
 
     if (!todos) {
@@ -37,7 +34,7 @@ const Home: NextPage<{ payload: ITodoResponse }> = ({payload}) => {
         <div className="h-100 w-full flex flex-col items-center  justify-center flex- bg-teal-lightest font-sans">
             <AddToDo/>
             <ToDoList todos={todos}/>
-            {loading ? 'Loading...' : <button className={disablePagination? "text-gray-500":""} disabled={disablePagination} onClick={loadMore}>show more</button>}
+            {loading ? <Loader/> : <button className={disablePagination? "p-2 border-2 rounded  text-gray-500":"p-2 border-2 rounded"} disabled={disablePagination} onClick={loadMore}>show more</button>}
         </div>
     )
 }
