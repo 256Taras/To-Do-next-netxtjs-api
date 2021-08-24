@@ -19,13 +19,17 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: run app
-        run: npm run dev
+      - run: npm ci
+      - run: run build
+      - run: npm run export
+        
+ 
     
       - name: Deploy to GitHub Pages
         if: success()
         uses: crazy-max/ghaction-github-pages@v2
         with:
           target_branch: gh-pages
-          build_dir: todo
+          build_dir: out
         env:
           GITHUB_TOKEN: ${{ secrets.TODO }}
