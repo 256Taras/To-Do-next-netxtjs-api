@@ -2,8 +2,9 @@ import {NextApiRequest, NextApiResponse} from "next";
 
 import {connectToDataBase} from "../../../../db/connection";
 import {TodoController} from "../../../../api/v1/controllers/todo-controller";
+import {withCors} from "../../../../api/v1/midelware/with-cors";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+async function handler(req: NextApiRequest, res: NextApiResponse) {
 
     await connectToDataBase()
 
@@ -24,3 +25,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
 
 }
+
+
+export default withCors(handler);
+

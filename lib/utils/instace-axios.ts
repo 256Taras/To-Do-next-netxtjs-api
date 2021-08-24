@@ -1,3 +1,4 @@
 import axios from "axios";
+import {environment} from "../../environments/environment";
 
-export const axios$ = axios.create({baseURL:'https://to-do-next-netxtjs-api.vercel.app/api/v1'})
+export const axios$ = axios.create({baseURL:environment.baseURL})

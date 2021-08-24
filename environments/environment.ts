@@ -7,4 +7,5 @@ export const environment = {
         logging: false,
         dropSchema: false,
     },
+    baseURL:'https://to-do-next-netxtjs-api.vercel.app/api/v1'
 }
