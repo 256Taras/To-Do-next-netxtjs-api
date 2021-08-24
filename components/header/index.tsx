@@ -1,5 +1,6 @@
 import React from 'react';
 import {Navbar} from "../navbar";
+import {Search} from "../search";
 
 export const Header = () => {
 
@@ -18,9 +19,8 @@ export const Header = () => {
             <Navbar/>
 
                 <div className="relative mx-auto text-gray-600 lg:block hidden">
-                    <input
-                        className="border-2 border-gray-300 bg-white h-10 pl-2 pr-1 rounded-lg text-sm focus:outline-none"
-                        type="search" name="search" placeholder="Search"/>
+                    <Search/>
+
 
                 </div>
 
