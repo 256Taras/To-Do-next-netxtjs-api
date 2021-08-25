@@ -21,6 +21,7 @@ export class TodoController {
                 skip: skip
             }
         );
+        res.setHeader("Access-Control-Allow-Origin", "*");
         res.send({
             data: result,
             total: total
@@ -65,6 +66,7 @@ export class TodoController {
             .where("id = :id", {id})
             .execute();
         if (updated.affected === 1) {
+
             res.status(200).json({message: 'success'});
 
         }
