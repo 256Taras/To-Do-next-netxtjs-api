@@ -10,7 +10,7 @@ export const environment = {
         dropSchema: false,
     },
     baseURL: isProd
-        ? 'https://to-do-next-netxtjs-api-mqducca5y-ezen1programmer.vercel.app/api/v1/'
+        ? 'https://test-todo-api-884.herokuapp.com/api/v1/'
         : 'http://localhost:3000/api/v1/'
 
 
