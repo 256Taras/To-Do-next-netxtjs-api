@@ -10,7 +10,7 @@ function initCors() {
         new Promise((resolve, reject) => {
 
             Cors({
-                origin: 'https://to-do-next-netxtjs-api.vercel.app',
+                origin: '*',
                 methods: 'GET, POST, PUT, PATCH, POST, DELETE',
                 allowedHeaders: 'Content-Type, Authorization,Accept',
                 credentials: true,
