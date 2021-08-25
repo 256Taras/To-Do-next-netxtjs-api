@@ -12,17 +12,14 @@ type TGetData = (query?: string) => Promise<IPaginationHandlerData>
 
 export const usePagination = (handler: TGetData, setState: TSetState) => {
     const [total, setTotal] = useState<number>(0);
-    const [skip, setSkip] = useState<number>(10);
+    const [skip, setSkip] = useState<number>(0);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | string[] | null>(null)
     const [isNeedFetchData, setIsNeedFetchData] = useState<boolean>(false);
-    const disablePagination = total - skip < 0
+    const disablePagination = (skip / skip) <= Math.round((total / skip))
 
 
     const loadMore = () => {
-        console.log('disablePagination', disablePagination)
-        console.log('disablePagination', total)
-        console.log('skip', 20 + skip)
         setSkip(skip + 10)
         setIsNeedFetchData(true)
         setLoading(true)
@@ -35,6 +32,7 @@ export const usePagination = (handler: TGetData, setState: TSetState) => {
                 try {
                     const response: IPaginationHandlerData = await handler(getQuery(skip))
                     setTotal(response.total)
+                    console.log(response)
                     setState((prevState: Record<string, unknown>[]) => (
                         [...prevState, ...response.data]
                     ))
@@ -47,7 +45,7 @@ export const usePagination = (handler: TGetData, setState: TSetState) => {
 
             })()
         }
-    }, [skip]);
+    }, [skip, setTotal]);
 
 
     return {

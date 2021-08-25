@@ -11,7 +11,7 @@ export const AddToDo: React.FC = () => {
     const [title, setTitle] = useState<string>('')
     const [isTodoSending, setIsTodoSending] = useState<boolean>(false)
     const [todoSendingFailure, setTodoSendingFailure] = useState<string | string[] | null>(null)
-    const { setTodos} = useToDoContext()
+    const {setTodos} = useToDoContext()
 
     const onChangeTodo = (e: React.FormEvent<HTMLInputElement>) => {
         if (title.length < 30) {
@@ -25,7 +25,6 @@ export const AddToDo: React.FC = () => {
             if (!title.length) {
                 return
             }
-
             setIsTodoSending(true)
             const response = await ToDoApi.addTodo({title})
 
