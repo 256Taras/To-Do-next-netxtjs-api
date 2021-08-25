@@ -29,7 +29,7 @@ export const ToDoItem: React.FC<IToDo> = (props) => {
                         isNeedEdited
                             ? <input type="text" onChange={(e) => setNewTitle(e.currentTarget.value)} value={newTitle}
                                      className='shadow appearance-none border rounded w-full py-2 px-3 mr-4 text-grey-darker focus:outline-none focus:ring focus:border-blue-100'/>
-                            : <p className="w-full  text-green">{title}</p>
+                            : <p className={status==='done'?"line-through w-full  text-green":"w-full   text-green"}>{title}</p>
                     }
 
                     {isSubmitting
