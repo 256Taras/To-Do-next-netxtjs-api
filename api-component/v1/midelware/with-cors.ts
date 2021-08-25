@@ -24,7 +24,6 @@ function initCors() {
                 );
                 if (req.method == "OPTIONS") {
                     res.setHeader("Access-Control-Allow-Methods", "PUT, POST, PATCH, DELETE, GET");
-                    return res.status(200).json({});
                 }
                 if (result instanceof Error) {
                     return reject(result);
