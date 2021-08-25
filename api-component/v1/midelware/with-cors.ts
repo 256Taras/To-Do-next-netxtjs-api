@@ -11,10 +11,13 @@ function initCors() {
 
             Cors({
                 origin: 'https://test-todo-api-884.herokuapp.com',
-                methods: 'GET, POST, PUT, PATCH, POST, DELETE',
-                allowedHeaders: 'Content-Type, Authorization,Accept',
                 credentials: true,
+
             })(req, res, (result: unknown) => {
+                res.setHeader("Access-Control-Allow-Credentials", "true");
+                res.setHeader("Access-Control-Max-Age", "1800");
+                res.setHeader("Access-Control-Allow-Headers", "content-type");
+                res.setHeader("Access-Control-Allow-Methods","PUT, POST, GET, DELETE, PATCH, OPTIONS");
                 if (result instanceof Error) {
                     return reject(result);
                 }
