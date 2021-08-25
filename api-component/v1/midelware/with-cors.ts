@@ -9,7 +9,12 @@ function initCors() {
     return (req: NextApiRequest, res: NextApiResponse) =>
         new Promise((resolve, reject) => {
 
-            Cors({})(req, res, (result: unknown) => {
+            Cors({
+                origin: 'https://to-do-next-netxtjs-api.vercel.app',
+                methods: 'GET, POST, PUT, PATCH, POST, DELETE',
+                allowedHeaders: 'Content-Type, Authorization,Accept',
+                credentials: true,
+            })(req, res, (result: unknown) => {
                 if (result instanceof Error) {
                     return reject(result);
                 }
