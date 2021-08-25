@@ -1,5 +1,5 @@
 import {createConnection, getConnection} from "typeorm";
-import { ToDoEntity } from "../api/v1/entities/todo.entity";
+import { ToDoEntity } from "../api-component/v1/entities/todo.entity";
 
 import {environment} from "../environments/environment";
 

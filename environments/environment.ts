@@ -1,11 +1,17 @@
+const isProd = true
+
 export const environment = {
     databaseConnection: {
-        type: 'postgres' as 'postgres',
-        url: 'postgres://pulxfqzz:WzcD54Dscd90DAWTExNMSXr6bVXe-umI@batyr.db.elephantsql.com/pulxfqzz' as string,
+        type: process.env['DB_TYPE'] as 'postgres',
+        url: process.env['DATABASE_URL'] as string,
         autoLoadEntities: true,
         synchronize: true,
         logging: false,
         dropSchema: false,
     },
-    baseURL:'https://to-do-next-netxtjs-api.vercel.app/api/v1'
+    baseURL: isProd
+        ? 'https://to-do-next-netxtjs-api-mqducca5y-ezen1programmer.vercel.app/api/v1/'
+        : 'http://localhost:3000/api/v1/'
+
+
 }

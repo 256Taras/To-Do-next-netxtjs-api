@@ -1,8 +1,8 @@
 import {NextApiRequest, NextApiResponse} from "next";
 
 import {connectToDataBase} from "../../../../db/connection";
-import {TodoController} from "../../../../api/v1/controllers/todo-controller";
-import {withCors} from "../../../../api/v1/midelware/with-cors";
+import {TodoController} from "../../../../api-component/v1/controllers/todo-controller";
+import {withCors} from "../../../../api-component/v1/midelware/with-cors";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
 
